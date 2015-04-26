@@ -1,63 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://java.sun.com/xml/ns/javaee"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-	id="WebApp_ID" version="3.0">
-	<display-name>LoginTests</display-name>
-	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
-		<welcome-file>index.htm</welcome-file>
-		<welcome-file>index.jsp</welcome-file>
-		<welcome-file>default.html</welcome-file>
-		<welcome-file>default.htm</welcome-file>
-		<welcome-file>default.jsp</welcome-file>
-	</welcome-file-list>
-	<security-constraint>
-		<display-name>Protected Frontend</display-name>
-		<web-resource-collection>
-			<web-resource-name>Protected Frontend</web-resource-name>
-			<url-pattern>/frontend/*</url-pattern>
-			<http-method>DELETE</http-method>
-			<http-method>GET</http-method>
-			<http-method>POST</http-method>
-			<http-method>PUT</http-method>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>frontend_users</role-name>
-			<role-name>backend_users</role-name>
-			<role-name>administrators</role-name>
-		</auth-constraint>
-	</security-constraint>
-	<security-constraint>
-		<display-name>Protected Backend</display-name>
-		<web-resource-collection>
-			<web-resource-name>Protected Backend</web-resource-name>
-			<url-pattern>/backend/*</url-pattern>
-			<http-method>DELETE</http-method>
-			<http-method>GET</http-method>
-			<http-method>POST</http-method>
-			<http-method>PUT</http-method>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>backend_users</role-name>
-			<role-name>administrators</role-name>
-		</auth-constraint>
-	</security-constraint>
-	<login-config>
-		<auth-method>FORM</auth-method>
-		<realm-name>Example Form-Based Authentication Area</realm-name>
-		<form-login-config>
-			<form-login-page>/login.jsp</form-login-page>
-			<form-error-page>/error.jsp</form-error-page>
-		</form-login-config>
-	</login-config>
-	<security-role>
-		<role-name>frontend_users</role-name>
-	</security-role>
-	<security-role>
-		<role-name>backend_users</role-name>
-	</security-role>
-	<security-role>
-		<role-name>administrators</role-name>
-	</security-role>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>LoginTests</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <security-constraint>
+    <display-name>Protected Frontend</display-name>
+    <web-resource-collection>
+      <web-resource-name>Protected Frontend</web-resource-name>
+      <url-pattern>/frontend/*</url-pattern>
+      <http-method>DELETE</http-method>
+      <http-method>GET</http-method>
+      <http-method>POST</http-method>
+      <http-method>PUT</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>frontend_users</role-name>
+      <role-name>backend_users</role-name>
+      <role-name>administrators</role-name>
+    </auth-constraint>
+  </security-constraint>
+  <security-constraint>
+    <display-name>Protected Backend</display-name>
+    <web-resource-collection>
+      <web-resource-name>Protected Backend</web-resource-name>
+      <url-pattern>/backend/*</url-pattern>
+      <http-method>DELETE</http-method>
+      <http-method>GET</http-method>
+      <http-method>POST</http-method>
+      <http-method>PUT</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>backend_users</role-name>
+      <role-name>administrators</role-name>
+    </auth-constraint>
+  </security-constraint>
+  <login-config>
+    <auth-method>FORM</auth-method>
+    <realm-name>Example Form-Based Authentication Area</realm-name>
+    <form-login-config>
+      <form-login-page>/login.jsp</form-login-page>
+      <form-error-page>/error.jsp</form-error-page>
+    </form-login-config>
+  </login-config>
+  <security-role>
+    <role-name>frontend_users</role-name>
+  </security-role>
+  <security-role>
+    <role-name>backend_users</role-name>
+  </security-role>
+  <security-role>
+    <role-name>administrators</role-name>
+  </security-role>
 </web-app>

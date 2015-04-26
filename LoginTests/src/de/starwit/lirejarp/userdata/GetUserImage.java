@@ -1,4 +1,4 @@
-package de.starwit.lirejarp;
+package de.starwit.lirejarp.userdata;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -15,6 +15,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import de.starwit.lirejarp.ldap.LDAPFunctions;
 
 /**
  * Returns an image (binary) of currently logged in user.
@@ -40,7 +42,6 @@ public class GetUserImage extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		//String userName = req.getParameter("userName");
 		String userName = req.getRemoteUser(); //TODO what if null
 		LDAPFunctions ldapFunctions = new LDAPFunctions(context);
 
@@ -80,7 +81,6 @@ public class GetUserImage extends HttpServlet {
 	 * @return
 	 */
 	private byte[] loadDefaultImage() {
-		System.out.println(getServletContext().getRealPath("/WEB-INF/default-user.png"));
 		// open image
 		File imageFile = new File(getServletContext().getRealPath("/WEB-INF/default-user.png"));
 
@@ -99,8 +99,7 @@ public class GetUserImage extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * Reroutes to doGet.
 	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {

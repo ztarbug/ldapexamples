@@ -12,8 +12,12 @@
 </head>
 <body>
 Protected Frontend Content! <br />
-
-<img alt="Profile Image" src="/LoginTests/GetUserImage">
+<p>
+	<img alt="Profile Image" src="/LoginTests/GetUserImage">
+</p>
+<p>
+	<a href="/LoginTests/GetUserData">User Data</a>
+</p>
 
 <a href="../index.jsp?logout=true">Logout</a> <br />
 
