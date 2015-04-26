@@ -1,0 +1,1 @@
+This project implements a Tomcat ressource to inject a LDAPConnection in your web application. Configuration of ressource is done via context.xml.
