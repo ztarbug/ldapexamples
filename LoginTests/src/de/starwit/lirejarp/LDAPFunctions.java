@@ -30,19 +30,20 @@ public class LDAPFunctions {
 		sc.setReturningObjFlag(true);
 
 		// example (&(objectclass=person)(uid=fe_user))
-		String filter = filterBase + userName + "))"; 
+		String filter = filterBase + userName + "))";
 
 		try {
-			NamingEnumeration<SearchResult> results = context.search(base,
-					filter, sc);
+			NamingEnumeration<SearchResult> results = context.search(base, filter, sc);
 			if (results.hasMoreElements()) {
 				SearchResult sr = (SearchResult) results.nextElement();
 				Attributes attrs = sr.getAttributes();
 				Attribute attr = attrs.get("jpegPhoto");
-				image = (byte[]) attr.get();
+				if (attr != null) {
+					image = (byte[]) attr.get();
+				}
 			}
 		} catch (NamingException e) {
-
+			//TODO
 		}
 
 		return image;

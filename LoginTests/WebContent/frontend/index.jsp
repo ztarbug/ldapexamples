@@ -13,6 +13,8 @@
 <body>
 Protected Frontend Content! <br />
 
+<img alt="Profile Image" src="/LoginTests/GetUserImage">
+
 <a href="../index.jsp?logout=true">Logout</a> <br />
 
 <strong>Debug</strong> <br />

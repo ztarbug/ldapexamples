@@ -1,16 +1,14 @@
 package de.starwit.lirejarp;
 
 import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 
 import javax.annotation.Resource;
-import javax.naming.NamingEnumeration;
-import javax.naming.NamingException;
-import javax.naming.directory.Attribute;
-import javax.naming.directory.Attributes;
-import javax.naming.directory.SearchControls;
-import javax.naming.directory.SearchResult;
 import javax.naming.ldap.LdapContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class GetUserImage
+ * Returns an image (binary) of currently logged in user.
  */
 @WebServlet("/GetUserImage")
 public class GetUserImage extends HttpServlet {
@@ -42,27 +40,62 @@ public class GetUserImage extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		String userName = req.getParameter("userName");
+		//String userName = req.getParameter("userName");
+		String userName = req.getRemoteUser(); //TODO what if null
+		LDAPFunctions ldapFunctions = new LDAPFunctions(context);
 
-		LDAPFunctions functions = new LDAPFunctions(context);
-		byte[] image = functions.getUserImage(userName);
-		if (image.length > 0) {
-			ByteArrayInputStream imageStream = new ByteArrayInputStream(image);
-			resp.setContentType("image/png");
-			OutputStream out = resp.getOutputStream();
-			byte[] buf = new byte[1024];
-			int count = 0;
-			while ((count = imageStream.read(buf)) >= 0) {
-				out.write(buf, 0, count);
-			}
-			out.flush();
-			out.close();
-		} else {
-			System.out.println("not found");
-			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			return;
+		OutputStream out = resp.getOutputStream();
+		resp.setContentType("image/png");
+
+		byte[] image = ldapFunctions.getUserImage(userName);
+		
+		if (image.length == 0) {
+			image = loadDefaultImage();
 		}
 
+		sendImageToOuputStream(out, image);
+		out.flush();
+		out.close();
+	}
+
+	/**
+	 * Splits given image byte array to 1k blocks and send to given output stream.
+	 * 
+	 * @param out Stream where image bytes to send to
+	 * @param image image bytes 
+	 * @throws IOException
+	 */
+	private void sendImageToOuputStream(OutputStream out, byte[] image)
+			throws IOException {
+		ByteArrayInputStream imageStream = new ByteArrayInputStream(image);
+		byte[] buf = new byte[1024];
+		int count = 0;
+		while ((count = imageStream.read(buf)) >= 0) {
+			out.write(buf, 0, count);
+		}
+	}
+
+	/**
+	 * Returns a default image packed with this app.
+	 * @return
+	 */
+	private byte[] loadDefaultImage() {
+		System.out.println(getServletContext().getRealPath("/WEB-INF/default-user.png"));
+		// open image
+		File imageFile = new File(getServletContext().getRealPath("/WEB-INF/default-user.png"));
+
+		try {
+			FileReader fileReader = new FileReader(imageFile);
+			byte[] fileData = new byte[(int) imageFile.length()];
+		    DataInputStream dis = new DataInputStream(new FileInputStream(imageFile));
+		    dis.readFully(fileData);
+		    dis.close();
+			fileReader.close();
+			return fileData;
+		} catch (IOException e) {
+			System.out.println("could not load default image");
+			return new byte[0];
+		}
 	}
 
 	/**
